@@ -340,7 +340,7 @@ profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
 
-##Affichage Proffit
+##Affichage Profit
 plt.plot(temps,profit,"-gs")
 plt.xticks(temps)
 plt.ylabel('Profit (en euro)',size = 16,)
