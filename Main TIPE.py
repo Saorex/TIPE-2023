@@ -2,6 +2,7 @@ import numpy as np
 import csv
 import random as rd
 import matplotlib.pyplot as plt
+caca
 
 ##Inialisation :
 #Création des différents types de produit par catégorie :
