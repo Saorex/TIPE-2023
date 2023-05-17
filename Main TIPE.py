@@ -2,7 +2,6 @@ import numpy as np
 import csv
 import random as rd
 import matplotlib.pyplot as plt
-caca
 
 ##Inialisation :
 #Création des différents types de produit par catégorie :
@@ -161,7 +160,7 @@ class Legume:
             print("{} a dépasser la date de consomation" .format(self))
 
 ##Probabilité
-def tirage_aliment(type_produit)-> str:
+def tirage_aliment(type_produit=str)-> str:
     """
     Tire un aliment d'une catégorie (viande,poisson...) donnée par l'utilisateur, selon la probabilité définie par la consommation moyenne des français.
 
@@ -247,7 +246,7 @@ def tirage_aliment(type_produit)-> str:
         if 0.95<n<=1 :
             return 'choux_fleur'
 
-def demande_client(nbr_client,demande_client_jour)-> dict:
+def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
     """
     Pour un nombre de client demandé, renvoie la demande en produit
     """
@@ -262,7 +261,7 @@ def demande_client(nbr_client,demande_client_jour)-> dict:
 
     return demande_client_jour
 
-def choix(aliment,stock_liste):
+def choix(aliment=str,stock_liste=list):
     """
     Détermine l'aliment qui à la date de péremption la plus courte dans le stock
     """
