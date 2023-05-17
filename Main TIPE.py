@@ -339,7 +339,8 @@ exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
-##
+
+##Affichage Proffit
 plt.plot(temps,profit,"-gs")
 plt.xticks(temps)
 plt.ylabel('Profit (en euro)',size = 16,)
