@@ -12,7 +12,8 @@ fruit=['pomme','banane','orange','clementine','peche','poire','raisin','pamplemo
 legume=['tomate','pomme_de_terre','carotte','endive','salade','courgette','oignon','concombre','poireau','choux_fleur']
 categorie=[viande,poisson,laitier,fruit,legume]
 capacite=3400
-jour = 0
+jour=0
+perte_gachis=[0]
 stock_liste=[]
 profit=[]
 temps=[]
@@ -82,6 +83,8 @@ class Viande:
         self.age-=1
         if self.age<0:
             print("{} a dépasser la date de consomation" .format(self))
+            perte_gachis[0]+=self.prix
+            self.existance=False
 
 class Poisson:
 
@@ -101,6 +104,8 @@ class Poisson:
         self.age-=1
         if self.age<0:
             print("{} a dépasser la date de consomation" .format(self))
+            perte_gachis[0]+=self.prix
+            self.existance=False
 
 class Laitier:
 
@@ -120,6 +125,8 @@ class Laitier:
         self.age-=1
         if self.age<0:
             print("{} a dépasser la date de consomation" .format(self))
+            perte_gachis[0]+=self.prix
+            self.existance=False
 
 class Fruit:
 
@@ -139,6 +146,8 @@ class Fruit:
         self.age-=1
         if self.age<0:
             print("{} a dépasser la date de consomation" .format(self))
+            perte_gachis[0]+=self.prix
+            self.existance=False
 
 class Legume:
 
@@ -158,6 +167,8 @@ class Legume:
         self.age-=1
         if self.age<0:
             print("{} a dépasser la date de consomation" .format(self))
+            perte_gachis[0]+=self.prix
+            self.existance=False
 
 ##Probabilité
 def tirage_aliment(type_produit=str)-> str:
@@ -297,26 +308,35 @@ temps.append(jour)
 ##Simulation
 jour+=1
 profit_jour=0
+profit_vente=0
+perte=0
 nombre_aliment_vendu=0
 nbr_client=rd.randint(10,500)
 demande_client_jour=demande_client(nbr_client,demande_client_jour)
 for aliment in demande_client_jour:
     for k in range(0,demande_client_jour[aliment]):
-        if stock_dict[aliment]!=0:
-            aliment_choisi=choix(aliment,stock_liste)  #On prend l'aliment avec la date la plus courte
+        aliment_choisi=choix(aliment,stock_liste)   #On prend l'aliment avec la date la plus courte
+        if aliment_choisi!=None:
             aliment_choisi.vendu()
             nombre_aliment_vendu+=1
-            profit_jour+=aliment_choisi.prix
+            profit_vente+=aliment_choisi.prix
         else:
             print('Rupture de stock pour {}'.format(aliment))
             break
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après vente
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
+
+perte_gachis[0]=0   #Aliments périmés qui sont jetés : Variable mise à jour avec la méthode avance_jour
+
 for aliment in stock_liste:
     aliment.avance_jour()
-perte=0 #en fonction du prix de l'approvisionnement du jour
-profit_jour = profit_jour - perte
+
+#perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
+
+perte+= perte_gachis[0]
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après avoir jeter les aliments périmés
+profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
 ##
