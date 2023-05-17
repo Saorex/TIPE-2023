@@ -1,6 +1,7 @@
 import numpy as np
 import csv
 import random as rd
+import matplotlib.pyplot as plt
 
 ##Inialisation :
 #Création des différents types de produit par catégorie :
@@ -13,8 +14,10 @@ categorie=[viande,poisson,laitier,fruit,legume]
 capacite=3400
 jour = 0
 stock_liste=[]
-#Création du dictionnaire avec tout les aliments, leurs valeur est leurs index dans la liste categorie
+profit=[]
+temps=[]
 
+#Création du dictionnaire avec tout les aliments, leurs valeur est leurs index dans la liste categorie
 def init_dict()-> (dict,dict,dict):
     '''
     Initialise les dictionnaires de base du programme
@@ -281,14 +284,19 @@ def choix(aliment,stock_liste):
 
                 return stock_liste[index_solution]
 
-##Stock jour 1 simulation test
+##Stock jour 0
+jour=0
 for aliment in reapprovisionnement_dict:
-    reapprovisionnement_dict[aliment]=100
-
+    reapprovisionnement_dict[aliment]=500
+perte=0
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
+profit_jour = - perte
+profit.append(profit_jour)
+temps.append(jour)
 
 ##Simulation
 jour+=1
+profit_jour=0
 nombre_aliment_vendu=0
 nbr_client=rd.randint(10,500)
 demande_client_jour=demande_client(nbr_client,demande_client_jour)
@@ -298,8 +306,21 @@ for aliment in demande_client_jour:
             aliment_choisi=choix(aliment,stock_liste)  #On prend l'aliment avec la date la plus courte
             aliment_choisi.vendu()
             nombre_aliment_vendu+=1
+            profit_jour+=aliment_choisi.prix
         else:
             print('Rupture de stock pour {}'.format(aliment))
+            break
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après vente
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
+for aliment in stock_liste:
+    aliment.avance_jour()
+perte=0 #en fonction du prix de l'approvisionnement du jour
+profit_jour = profit_jour - perte
+profit.append(profit_jour)
+temps.append(jour)
+##
+plt.plot(temps,profit,"-gs")
+plt.ylabel('Jour')
+plt.xlabel('Profit (en euro)')
+plt.show()
