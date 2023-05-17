@@ -82,7 +82,7 @@ class Viande:
     def avance_jour(self):
         self.age-=1
         if self.age<0:
-            print("{} a dépasser la date de consomation" .format(self))
+            print("{} a dépassé la date de consomation" .format(self))
             perte_gachis[0]+=self.prix
             self.existance=False
 
@@ -103,7 +103,7 @@ class Poisson:
     def avance_jour(self):
         self.age-=1
         if self.age<0:
-            print("{} a dépasser la date de consomation" .format(self))
+            print("{} a dépassé la date de consomation" .format(self))
             perte_gachis[0]+=self.prix
             self.existance=False
 
@@ -124,7 +124,7 @@ class Laitier:
     def avance_jour(self):
         self.age-=1
         if self.age<0:
-            print("{} a dépasser la date de consomation" .format(self))
+            print("{} a dépassé la date de consomation" .format(self))
             perte_gachis[0]+=self.prix
             self.existance=False
 
@@ -145,7 +145,7 @@ class Fruit:
     def avance_jour(self):
         self.age-=1
         if self.age<0:
-            print("{} a dépasser la date de consomation" .format(self))
+            print("{} a dépassé la date de consomation" .format(self))
             perte_gachis[0]+=self.prix
             self.existance=False
 
@@ -166,7 +166,7 @@ class Legume:
     def avance_jour(self):
         self.age-=1
         if self.age<0:
-            print("{} a dépasser la date de consomation" .format(self))
+            print("{} a dépassé la date de consomation" .format(self))
             perte_gachis[0]+=self.prix
             self.existance=False
 
@@ -341,6 +341,9 @@ profit.append(profit_jour)
 temps.append(jour)
 ##
 plt.plot(temps,profit,"-gs")
-plt.ylabel('Jour')
-plt.xlabel('Profit (en euro)')
+plt.xticks(temps)
+plt.ylabel('Profit (en euro)',size = 16,)
+plt.xlabel('Jour',size = 16,)
+plt.grid(True)
+plt.title("Profit effectué",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
 plt.show()
