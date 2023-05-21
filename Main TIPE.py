@@ -194,15 +194,15 @@ def tirage_aliment(type_produit=str)-> str:
             return 'lapin'
 
     if type_produit == 'poisson':
-        if n<=0.39:
+        if n<=0.41:
             return 'saumon'
-        if 0.39<n<=0.42:
+        if 0.41<n<=0.71:
             return 'thon'
-        if 0.42<n<= 0.88:
+        if 0.71<n<= 0.77:
             return 'moule'
-        if 0.88<n<=0.92 :
+        if 0.77<n<=0.8 :
             return 'crevette'
-        if 0.92<n<= 1:
+        if 0.8<n<= 1:
             return 'truite'
 
     if type_produit == 'laitier':
@@ -267,7 +267,7 @@ def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
         nombre_produit_panier=rd.randint(1,20)      #Le client prendra entre 1 et 20 produits
         for k in range(nombre_produit_panier):
             type_produit=rd.choice(['viande','poisson','laitier','fruit','legume'])   #Chaque type de produit est pris de manière aléatoire pour le moment
-            aliment=tirage_aliment(type_produit)    #On détermone le produit avec la fonction précédente
+            aliment=tirage_aliment(type_produit)    #On détermine le produit avec la fonction précédente
             demande_client_jour[aliment]+=1
 
     return demande_client_jour
@@ -306,6 +306,7 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
+plt.close()
 jour+=1
 profit_jour=0
 profit_vente=0
@@ -339,8 +340,11 @@ exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
+plt.bar(list(demande_client_jour.keys()), demande_client_jour.values(), color='g',width=0.8)
+plt.show()
 
 ##Affichage Profit
+plt.close()
 plt.plot(temps,profit,"-gs")
 plt.xticks(temps)
 plt.ylabel('Profit (en euro)',size = 16,)
