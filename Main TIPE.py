@@ -21,6 +21,7 @@ perte_gachis=[0]
 stock_liste=[]
 profit=[]
 temps=[]
+nombre_aliment_perime_liste=[0]
 perte_viande=[0]
 perte_poisson=[0]
 perte_laitier=[0]
@@ -435,17 +436,28 @@ if jour%4==0:  #Approvisionnement tout les 4 jours
     capacite_jour=capacite_max
 
 profit_jour = profit_vente - perte
+nombre_aliment_perime_liste.append(nombre_aliment_perime)
 profit.append(profit_jour)
 temps.append(jour)
 
 ##Affichage Profit
 plt.close()
+plt.subplot(211)
 plt.plot(temps,profit,"-gs")
 plt.xticks(temps)
 plt.ylabel('Profit (en euro)',size = 16,)
 plt.xlabel('Jour',size = 16,)
-plt.grid(True)
 plt.title("Profit effectué",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
+plt.grid(True)
+
+plt.subplot(212)
+plt.plot(temps,nombre_aliment_perime_liste,"-rs")
+plt.xticks(temps)
+plt.ylabel('Perte (par aliment)',size = 16,)
+plt.xlabel('Jour',size = 16,)
+plt.title("Perte d'aliment'",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
+plt.grid(True)
+
 plt.show()
 
 ## CODE HUGO
