@@ -22,7 +22,7 @@ perte_poisson=[0]
 perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
-#Création du dictionnaire avec tout les aliments, leurs valeur est leurs index dans la liste categorie
+#Création du dictionnaire avec tous les aliments, leur valeur est leurs index dans la liste categorie
 def init_dict()-> (dict,dict,dict):
     '''
     Initialise les dictionnaires de base du programme
@@ -67,7 +67,7 @@ def init_list()-> (list,list,list):
                     taille.append(int(row[3]))
     return prix,validite,taille
 
-prix,validite,taille=init_list() #la liste prix, validite est dans l'ordre des indices des clefs dans la dictionnaire aliment ainsi prix[aliment_dict['poulet']] renvoie bien le prix au kg du poulet.
+prix,validite,taille=init_list() #la liste prix, validite est dans l'ordre des indices des clefs dans le dictionnaire aliment ainsi prix[aliment_dict['poulet']] renvoie bien le prix au kg du poulet.
 
 class Viande:
 
@@ -188,9 +188,9 @@ class Legume:
 ##Probabilité
 def tirage_aliment(type_produit=str)-> str:
     """
-    Tire un aliment d'une catégorie (viande,poisson...) donnée par l'utilisateur, selon la probabilité définie par la consommation moyenne des français.
+    Tire un aliment d'une catégorie (viande,poisson...) donnée par l'utilisateur, selon la probabilité définie par la consommation moyenne des Français.
 
-    On tire un nombre aléatoirement entre 0 et 1, et on découpe l'interval [0,1] en fonction des pourcentages de consommation/vente d'un produit
+    On tire un nombre aléatoirement entre 0 et 1, et on découpe l'intervalle [0,1] en fonction des pourcentages de consommation/vente d'un produit
     """
 
     n=rd.random()
@@ -274,7 +274,7 @@ def tirage_aliment(type_produit=str)-> str:
 
 def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
     """
-    Pour un nombre de client demandé, renvoie la demande en produit
+    Pour un nombre de clients donné, renvoie la demande en produit
     """
     for aliment in demande_client_jour:
         demande_client_jour[aliment]=0              #Remise à zéro du dictionnaire
@@ -292,14 +292,14 @@ def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
                 type_produit='fruit'
             if 0.80<n<=1:
                 type_produit='legume'
-            aliment=tirage_aliment(type_produit)    #On détermine le produit avec la fonction précédente
+            aliment=tirage_aliment(type_produit)    #On détermine le produit avec la fonction tirage_aliement
             demande_client_jour[aliment]+=1
 
     return demande_client_jour
 
 def choix(aliment=str,stock_liste=list):
     """
-    Détermine l'aliment qui à la date de péremption la plus courte dans le stock
+    Détermine l'aliment qui a la date de péremption la plus courte dans le stock
     """
     if stock_dict[aliment]<0:                 #S'il n'y a pas de produit disponible en stock
         return None
@@ -307,14 +307,14 @@ def choix(aliment=str,stock_liste=list):
         index=-1
         index_solution=0
         date_peremption_liste=[]
-        for k in stock_liste:                           #On regarde pour tout les produits dans le stock
+        for k in stock_liste:                           #On regarde pour tous les produits dans le stock
             index+=1
             if k.type==aliment:                         #Pour le type d'aliment qu'on cherche
                 if date_peremption_liste==[]:           #Recherche du minimum
                     index_solution=index
                     date_peremption_liste.append(k.age)
                 else:
-                    if date_peremption_liste[-1]>k.age: #si la date de péremption de l'élement k est plus petit que celui du dernière élement solution temporaire alors la nouvelle solution est k si égalité on garde la première solution
+                    if date_peremption_liste[-1]>k.age: #Si la date de péremption de l'élement k est plus petite que celle du dernière élement solution alors la nouvelle solution est k s'il y a égalité on garde la première solution
                             index_solution=index
                             date_peremption_liste.append(k.age)
 
@@ -331,7 +331,6 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-plt.close()
 jour+=1
 nombre_aliment_vendu=0
 profit_jour=0
@@ -344,14 +343,14 @@ perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
 
-#On met à jour l'age des aliments
+#On met à jour l'âge des aliments
 for aliment in stock_liste:
     aliment.avance_jour()
 
 nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
 
 perte+= perte_gachis[0]
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après avoir jeter les aliments périmés
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après avoir jeté les aliments périmés
 print("{} viandes ont dépassé la date de consommation" .format(perte_viande[0]))
 print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[0]))
 print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
@@ -372,7 +371,7 @@ for aliment in demande_client_jour:
             print('Rupture de stock pour {}'.format(aliment))
             break
 
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après vente
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
@@ -381,8 +380,6 @@ exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
-plt.bar(list(demande_client_jour.keys()), demande_client_jour.values(), color='g',width=0.8)
-plt.show()
 
 ##Affichage Profit
 plt.close()
@@ -409,7 +406,7 @@ stock_liste=[]
 profit=[]
 temps=[]
 
-#Création du dictionnaire avec tout les aliments, leurs valeur est leurs index dans la liste categorie
+#Création du dictionnaire avec tous les aliments, leur valeur est leurs index dans la liste categorie
 def init_dict()-> (dict,dict,dict):
     '''
     Initialise les dictionnaires de base du programme
@@ -455,7 +452,7 @@ def init_list()-> (list,list,list):
                     taille.append(int(d))
     return prix,validite,taille
 
-prix,validite,taille=init_list() #la liste prix, validite est dans l'ordre des indices des clefs dans la dictionnaire aliment ainsi prix[aliment_dict['poulet']] renvoie bien le prix au kg du poulet.
+prix,validite,taille=init_list() #la liste prix, validite est dans l'ordre des indices des clefs dans le dictionnaire aliment ainsi prix[aliment_dict['poulet']] renvoie bien le prix au kg du poulet.
 
 class Viande:
 
@@ -576,9 +573,9 @@ class Legume:
 ##Probabilité
 def tirage_aliment(type_produit=str)-> str:
     """
-    Tire un aliment d'une catégorie (viande,poisson...) donnée par l'utilisateur, selon la probabilité définie par la consommation moyenne des français.
+    Tire un aliment d'une catégorie (viande,poisson...) donnée par l'utilisateur, selon la probabilité définie par la consommation moyenne des Français.
 
-    On tire un nombre aléatoirement entre 0 et 1, et on découpe l'interval [0,1] en fonction des pourcentages de consommation/vente d'un produit
+    On tire un nombre aléatoirement entre 0 et 1, et on découpe l'intervalle [0,1] en fonction des pourcentages de consommation/vente d'un produit
     """
 
     n=rd.random()
@@ -662,7 +659,7 @@ def tirage_aliment(type_produit=str)-> str:
 
 def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
     """
-    Pour un nombre de client demandé, renvoie la demande en produit
+   Pour un nombre de clients donné, renvoie la demande en produit
     """
     for aliment in demande_client_jour:
         demande_client_jour[aliment]=0              #Remise à zéro du dictionnaire
@@ -680,14 +677,14 @@ def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
                 type_produit='fruit'
             if 0.80<n<=1:
                 type_produit='legume'
-            aliment=tirage_aliment(type_produit)    #On détermine le produit avec la fonction précédente
+            aliment=tirage_aliment(type_produit)    #On détermine le produit avec la fonction tirage_aliment
             demande_client_jour[aliment]+=1
 
     return demande_client_jour
 
 def choix(aliment=str,stock_liste=list):
     """
-    Détermine l'aliment qui à la date de péremption la plus courte dans le stock
+    Détermine l'aliment qui a la date de péremption la plus courte dans le stock
     """
     if stock_dict[aliment]<0:                 #S'il n'y a pas de produit disponible en stock
         return None
@@ -695,14 +692,14 @@ def choix(aliment=str,stock_liste=list):
         index=-1
         index_solution=0
         date_peremption_liste=[]
-        for k in stock_liste:                           #On regarde pour tout les produits dans le stock
+        for k in stock_liste:                           #On regarde pour tous les produits dans le stock
             index+=1
             if k.type==aliment:                         #Pour le type d'aliment qu'on cherche
                 if date_peremption_liste==[]:           #Recherche du minimum
                     index_solution=index
                     date_peremption_liste.append(k.age)
                 else:
-                    if date_peremption_liste[-1]>k.age: #si la date de péremption de l'élement k est plus petit que celui du dernière élement solution temporaire alors la nouvelle solution est k si égalité on garde la première solution
+                    if date_peremption_liste[-1]>k.age: #Si la date de péremption de l'élement k est plus petite que celle du dernière élement solution alors la nouvelle solution est k s'il y a égalité on garde la première solution
                             index_solution=index
                             date_peremption_liste.append(k.age)
 
@@ -721,7 +718,6 @@ temps.append(jour)
 
 
 ##Simulation
-plt.close()
 jour+=1
 nombre_aliment_vendu=0
 profit_jour=0
@@ -734,14 +730,14 @@ perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
 
-#On met à jour l'age des aliments
+#On met à jour l'âge des aliments
 for aliment in stock_liste:
     aliment.avance_jour()
 
 nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
 
 perte+= perte_gachis[0]
-exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Met à jour les stocks après avoir jeter les aliments périmés
+exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après avoir jeté les aliments périmés
 print("{} viandes ont dépassé la date de consommation" .format(perte_viande[0]))
 print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[0]))
 print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
@@ -762,7 +758,7 @@ for aliment in demande_client_jour:
             print('Rupture de stock pour {}'.format(aliment))
             break
 
-exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Met à jour les stocks après vente
+exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après vente
 
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
@@ -771,8 +767,6 @@ exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Met 
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
-plt.bar(list(demande_client_jour.keys()), demande_client_jour.values(), color='g',width=0.8)
-plt.show()
 
 ##Affichage Profit
 plt.close()
