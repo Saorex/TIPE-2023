@@ -11,7 +11,8 @@ laitier=['lait','yaourt','creme_fraiche','beurre','emmental']
 fruit=['pomme','banane','orange','clementine','peche','poire','raisin','pamplemousse']
 legume=['tomate','pomme_de_terre','carotte','endive','salade','courgette','oignon','concombre','poireau','choux_fleur']
 categorie=[viande,poisson,laitier,fruit,legume]
-capacite=2100
+capacite_max=2100
+capacite_jour=0
 jour=0
 perte_gachis=[0]
 stock_liste=[]
@@ -343,16 +344,16 @@ perte_poisson=[0]
 perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
-taille=0
+
 
 #On met à jour l'âge des aliments
 for aliment in stock_liste:
     aliment.avance_jour()
 
-#Mise en place de promotion pour les produits avec une date de péremption arrivante a éché chance dans 1 jour
+#Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance dans 2 jour
 promo_liste=[]
 for aliment in stock_liste:
-    if 0<aliment.age<=1:
+    if 0<aliment.age<=2:
         promo_liste.append(aliment)
         aliment.prix= aliment.prix - aliment.prix*(30/100)
 
@@ -377,7 +378,7 @@ for aliment in demande_client_jour:
             aliment_choisi.vendu()
             nombre_aliment_vendu+=1
             profit_vente+=aliment_choisi.prix
-            taille+=aliment_choisi.taille
+            capacite_jour+= aliment_choisi.taille
 
         else:
             print('Rupture de stock pour {}'.format(aliment))
@@ -386,6 +387,7 @@ for aliment in demande_client_jour:
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
 #Vente produit en promotion
+nombre_aliment_vendu_promo=0
 for client in range(0,nbr_client):
     n=rd.random()
     if n<=0.15:
@@ -395,9 +397,10 @@ for client in range(0,nbr_client):
                 aliment=rd.choice(promo_liste)
                 aliment.vendu()
                 nombre_aliment_vendu+=1
+                nombre_aliment_vendu_promo+=1
                 profit_vente+=aliment.prix
                 promo_liste.remove(aliment)
-                taille+=aliment_choisi.taille
+                capacite_jour+= aliment_choisi.taille
 
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
 
@@ -405,7 +408,7 @@ exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
 #perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
 
-print("Nombre de produit vendu : {}" .format(nombre_aliment_vendu))
+print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu,nombre_aliment_vendu_promo))
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
@@ -429,11 +432,18 @@ laitier=['lait','yaourt','creme_fraiche','beurre','emmental']
 fruit=['pomme','banane','orange','clementine','peche','poire','raisin','pamplemousse']
 legume=['tomate','pomme_de_terre','carotte','endive','salade','courgette','oignon','concombre','poireau','choux_fleur']
 categorie=[viande,poisson,laitier,fruit,legume]
-capacite=3400
-jour = 0
+capacite_max=2100
+capacite_jour=0
+jour=0
+perte_gachis=[0]
 stock_liste=[]
 profit=[]
 temps=[]
+perte_viande=[0]
+perte_poisson=[0]
+perte_laitier=[0]
+perte_fruit=[0]
+perte_legume=[0]
 
 #Création du dictionnaire avec tous les aliments, leur valeur est leurs index dans la liste categorie
 def init_dict()-> (dict,dict,dict):
@@ -791,6 +801,7 @@ for aliment in demande_client_jour:
             aliment_choisi.vendu()
             nombre_aliment_vendu+=1
             profit_vente+=aliment_choisi.prix
+            capacite_jour+= aliment_choisi.taille
         else:
             print('Rupture de stock pour {}'.format(aliment))
             break
@@ -798,6 +809,7 @@ for aliment in demande_client_jour:
 exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après vente
 
 #Vente produit en promotion
+nombre_aliment_vendu_promo=0
 for client in range(0,nbr_client):
     n=rd.random()
     if n<=0.15:
@@ -807,8 +819,10 @@ for client in range(0,nbr_client):
                 aliment=rd.choice(promo_liste)
                 aliment.vendu()
                 nombre_aliment_vendu+=1
+                nombre_aliment_vendu_promo+=1
                 profit_vente+=aliment.prix
                 promo_liste.remove(aliment)
+                capacite_jour+= aliment_choisi.taille
 
 exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
 
@@ -816,6 +830,7 @@ exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
 #perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
 
+print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu,nombre_aliment_vendu_promo))
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
