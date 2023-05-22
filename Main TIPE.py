@@ -2,7 +2,6 @@ import numpy as np
 import csv
 import random as rd
 import matplotlib.pyplot as plt
-import pulp import *
 
 ##Inialisation :
 #Création des différents types de produit par catégorie :
@@ -12,7 +11,7 @@ laitier=['lait','yaourt','creme_fraiche','beurre','emmental']
 fruit=['pomme','banane','orange','clementine','peche','poire','raisin','pamplemousse']
 legume=['tomate','pomme_de_terre','carotte','endive','salade','courgette','oignon','concombre','poireau','choux_fleur']
 categorie=[viande,poisson,laitier,fruit,legume]
-capacite=3400
+capacite=2100
 jour=0
 perte_gachis=[0]
 stock_liste=[]
@@ -24,6 +23,7 @@ perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
 #Création du dictionnaire avec tous les aliments, leur valeur est leurs index dans la liste categorie
+
 def init_dict()-> (dict,dict,dict):
     '''
     Initialise les dictionnaires de base du programme
@@ -324,7 +324,7 @@ def choix(aliment=str,stock_liste=list):
 ##Stock jour 0
 jour=0
 for aliment in reapprovisionnement_dict:
-    reapprovisionnement_dict[aliment]=100
+    reapprovisionnement_dict[aliment]=500
 perte=0
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
 profit_jour = - perte
@@ -343,6 +343,7 @@ perte_poisson=[0]
 perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
+taille=0
 
 #On met à jour l'âge des aliments
 for aliment in stock_liste:
@@ -367,7 +368,7 @@ print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]
 print("Perte total : {} aliments" .format(nombre_aliment_perime))
 
 #On effectue la vente du jour
-nbr_client=rd.randint(10,100)
+nbr_client=rd.randint(50,100)
 demande_client_jour=demande_client(nbr_client,demande_client_jour)
 for aliment in demande_client_jour:
     for k in range(0,demande_client_jour[aliment]):
@@ -376,6 +377,8 @@ for aliment in demande_client_jour:
             aliment_choisi.vendu()
             nombre_aliment_vendu+=1
             profit_vente+=aliment_choisi.prix
+            taille+=aliment_choisi.taille
+
         else:
             print('Rupture de stock pour {}'.format(aliment))
             break
@@ -394,6 +397,7 @@ for client in range(0,nbr_client):
                 nombre_aliment_vendu+=1
                 profit_vente+=aliment.prix
                 promo_liste.remove(aliment)
+                taille+=aliment_choisi.taille
 
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
 
