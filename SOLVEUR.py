@@ -4,7 +4,7 @@ import random as rd
 
 
 objectif=np.eye(34)
-contraintes = np.array(MOY[i] for i in MOY)
+contraintes = np.array([MOY[i] for i in MOY])
 fonction_benefices = np.array(prix)
 
 # Problème
@@ -41,11 +41,10 @@ solver = PULP_CBC_CMD(timeLimit=20, msg=False) #limite le temps de calcul a 20se
 prob.solve(solver=solver)
 
 # Résultat
-benefice_total=0
-for i in range(len(objectif[0])):
-    print(L[i],'=',L[i].value())
-    benefice_total+=L[i].value()*prix[i]
-print("Bénéfice total : ",round(benefice_total),"€")
+compteur=-1
+for i in reapprovisionnement_dict:
+    compteur +=1
+    reapprovisionnement_dict[i]=int(L[compteur].value())
 
 
 
