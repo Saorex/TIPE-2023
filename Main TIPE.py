@@ -3,6 +3,8 @@ import csv
 import random as rd
 import matplotlib.pyplot as plt
 
+MOY={'poulet':71, 'boeuf':44, 'porc':95, 'veau':6, 'agneau':6, 'lapin':8, 'saumon':33,'thon':19,'moule':4,'crevette':2,'truite':15,'lait':69,'yaourt':35,'creme_fraiche':7,'beurre':38,'emmental':49,'pomme':16,'banane':16,'orange':24,'clementine':19,'peche':16,'poire':21,'raisin':4,'pamplemousse':6,'tomate':26,'pomme_de_terre':28,'carotte':17,'endive':9,'salade':12,'courgette':21,'oignon':11,'concombre':6,'poireau':6,'choux_fleur':7}
+
 ##Inialisation :
 #Création des différents types de produit par catégorie :
 viande=['poulet','boeuf','porc','veau','agneau','lapin']
@@ -322,7 +324,7 @@ def choix(aliment=str,stock_liste=list):
 
                 return stock_liste[index_solution]
 
-##Stock jour 0
+#Stock jour 0
 jour=0
 for aliment in reapprovisionnement_dict:
     reapprovisionnement_dict[aliment]=500
@@ -370,6 +372,7 @@ print("Perte total : {} aliments" .format(nombre_aliment_perime))
 
 #On effectue la vente du jour
 nbr_client=rd.randint(50,100)
+nbr_client=75
 demande_client_jour=demande_client(nbr_client,demande_client_jour)
 for aliment in demande_client_jour:
     for k in range(0,demande_client_jour[aliment]):
