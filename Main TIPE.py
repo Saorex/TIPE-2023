@@ -356,6 +356,7 @@ print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[
 print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
 print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
 print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
+print("Perte total : {} aliments" .format(nombre_aliment_perime))
 
 #On effectue la vente du jour
 nbr_client=rd.randint(10,100)
@@ -743,6 +744,7 @@ print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[
 print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
 print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
 print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
+print("Perte total : {} aliments" .format(nombre_aliment_perime))
 
 #On effectue la vente du jour
 nbr_client=rd.randint(10,100)
