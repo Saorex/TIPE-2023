@@ -17,7 +17,11 @@ perte_gachis=[0]
 stock_liste=[]
 profit=[]
 temps=[]
-
+perte_viande=[0]
+perte_poisson=[0]
+perte_laitier=[0]
+perte_fruit=[0]
+perte_legume=[0]
 #Création du dictionnaire avec tout les aliments, leurs valeur est leurs index dans la liste categorie
 def init_dict()-> (dict,dict,dict):
     '''
@@ -76,14 +80,16 @@ class Viande:
         stock_dict[self.type]+=1
 
     def vendu(self):
-        stock_dict[self.type]-=1
-        self.existance=False
+        if self.existance :
+            stock_dict[self.type]-=1
+            self.existance=False
 
     def avance_jour(self):
         self.age-=1
-        if self.age<0:
-            print("{} a dépassé la date de consomation" .format(self))
+        if self.age<0 and self.existance :
+            perte_viande[0]+=1
             perte_gachis[0]+=self.prix
+            stock_dict[self.type]-=1
             self.existance=False
 
 class Poisson:
@@ -97,14 +103,16 @@ class Poisson:
         stock_dict[self.type]+=1
 
     def vendu(self):
-        stock_dict[self.type]-=1
-        self.existance=False
+        if self.existance :
+            stock_dict[self.type]-=1
+            self.existance=False
 
     def avance_jour(self):
         self.age-=1
-        if self.age<0:
-            print("{} a dépassé la date de consomation" .format(self))
+        if self.age<0 and self.existance :
+            perte_poisson[0]+=1
             perte_gachis[0]+=self.prix
+            stock_dict[self.type]-=1
             self.existance=False
 
 class Laitier:
@@ -118,14 +126,16 @@ class Laitier:
         stock_dict[self.type]+=1
 
     def vendu(self):
-        stock_dict[self.type]-=1
-        self.existance=False
+        if self.existance:
+            stock_dict[self.type]-=1
+            self.existance=False
 
     def avance_jour(self):
         self.age-=1
-        if self.age<0:
-            print("{} a dépassé la date de consomation" .format(self))
+        if self.age<0 and self.existance:
+            perte_laitier[0]+=1
             perte_gachis[0]+=self.prix
+            stock_dict[self.type]-=1
             self.existance=False
 
 class Fruit:
@@ -139,15 +149,18 @@ class Fruit:
         stock_dict[self.type]+=1
 
     def vendu(self):
-        stock_dict[self.type]-=1
-        self.existance=False
+        if self.existance:
+            stock_dict[self.type]-=1
+            self.existance=False
 
     def avance_jour(self):
         self.age-=1
-        if self.age<0:
-            print("{} a dépassé la date de consomation" .format(self))
+        if self.age<0 and self.existance :
+            perte_fruit[0]+=1
             perte_gachis[0]+=self.prix
+            stock_dict[self.type]-=1
             self.existance=False
+
 
 class Legume:
 
@@ -160,14 +173,16 @@ class Legume:
         stock_dict[self.type]+=1
 
     def vendu(self):
-        stock_dict[self.type]-=1
-        self.existance=False
+        if self.existance :
+            stock_dict[self.type]-=1
+            self.existance=False
 
     def avance_jour(self):
         self.age-=1
-        if self.age<0:
-            print("{} a dépassé la date de consomation" .format(self))
+        if self.age<0 and self.existance :
+            perte_legume[0]+=1
             perte_gachis[0]+=self.prix
+            stock_dict[self.type]-=1
             self.existance=False
 
 ##Probabilité
@@ -266,7 +281,17 @@ def demande_client(nbr_client=int,demande_client_jour=dict)-> dict:
     for client in range(nbr_client):
         nombre_produit_panier=rd.randint(1,20)      #Le client prendra entre 1 et 20 produits
         for k in range(nombre_produit_panier):
-            type_produit=rd.choice(['viande','poisson','laitier','fruit','legume'])   #Chaque type de produit est pris de manière aléatoire pour le moment
+            n=rd.random()
+            if n<=0.30:
+                type_produit='viande'
+            if 0.30<n<=0.39:
+                type_produit='poisson'
+            if 0.39<n<=0.61:
+                type_produit='laitier'
+            if 0.61<n<=0.80:
+                type_produit='fruit'
+            if 0.80<n<=1:
+                type_produit='legume'
             aliment=tirage_aliment(type_produit)    #On détermine le produit avec la fonction précédente
             demande_client_jour[aliment]+=1
 
@@ -276,7 +301,7 @@ def choix(aliment=str,stock_liste=list):
     """
     Détermine l'aliment qui à la date de péremption la plus courte dans le stock
     """
-    if stock_dict[aliment]==0:                 #Si il n'y a pas de produit disponible en stock
+    if stock_dict[aliment]<0:                 #S'il n'y a pas de produit disponible en stock
         return None
     else :
         index=-1
@@ -298,7 +323,7 @@ def choix(aliment=str,stock_liste=list):
 ##Stock jour 0
 jour=0
 for aliment in reapprovisionnement_dict:
-    reapprovisionnement_dict[aliment]=500
+    reapprovisionnement_dict[aliment]=100
 perte=0
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
 profit_jour = - perte
@@ -308,11 +333,33 @@ temps.append(jour)
 ##Simulation
 plt.close()
 jour+=1
+nombre_aliment_vendu=0
 profit_jour=0
 profit_vente=0
 perte=0
-nombre_aliment_vendu=0
-nbr_client=rd.randint(10,500)
+perte_gachis=[0]   #Aliments périmés qui sont jetés : Variable mise à jour avec la méthode avance_jour
+perte_viande=[0]
+perte_poisson=[0]
+perte_laitier=[0]
+perte_fruit=[0]
+perte_legume=[0]
+
+#On met à jour l'age des aliments
+for aliment in stock_liste:
+    aliment.avance_jour()
+
+nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
+
+perte+= perte_gachis[0]
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après avoir jeter les aliments périmés
+print("{} viandes ont dépassé la date de consommation" .format(perte_viande[0]))
+print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[0]))
+print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
+print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
+print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
+
+#On effectue la vente du jour
+nbr_client=rd.randint(10,100)
 demande_client_jour=demande_client(nbr_client,demande_client_jour)
 for aliment in demande_client_jour:
     for k in range(0,demande_client_jour[aliment]):
@@ -324,25 +371,16 @@ for aliment in demande_client_jour:
         else:
             print('Rupture de stock pour {}'.format(aliment))
             break
+
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après vente
+
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
-
-perte_gachis[0]=0   #Aliments périmés qui sont jetés : Variable mise à jour avec la méthode avance_jour
-
-for aliment in stock_liste:
-    aliment.avance_jour()
-
 #perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
 
-perte+= perte_gachis[0]
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Met à jour les stocks après avoir jeter les aliments périmés
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
-plt.bar(list(demande_client_jour.keys()), demande_client_jour.values(), color='g',width=0.8)
-plt.show()
-
 ##Affichage Profit
 plt.close()
 plt.plot(temps,profit,"-gs")

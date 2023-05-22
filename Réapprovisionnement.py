@@ -7,6 +7,7 @@ for aliment in reapprovisionnement_dict:
     for k in range (1,nombre_aliment+1):
         test=False
         i=0
+
         if aliment in viande:
             while not test:                                 #Boucle permetant de vérifier l'existance d'une variable et donc éviter de l'écrasser
                 if aliment+str(i) not in globals():         #Si elle n'est pas définie
