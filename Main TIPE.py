@@ -2,6 +2,7 @@ import numpy as np
 import csv
 import random as rd
 import matplotlib.pyplot as plt
+import pulp import *
 
 ##Inialisation :
 #Création des différents types de produit par catégorie :
@@ -347,6 +348,13 @@ perte_legume=[0]
 for aliment in stock_liste:
     aliment.avance_jour()
 
+#Mise en place de promotion pour les produits avec une date de péremption arrivante a éché chance dans 1 jour
+promo_liste=[]
+for aliment in stock_liste:
+    if 0<aliment.age<=1:
+        promo_liste.append(aliment)
+        aliment.prix= aliment.prix - aliment.prix*(30/100)
+
 nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
 
 perte+= perte_gachis[0]
@@ -374,10 +382,26 @@ for aliment in demande_client_jour:
 
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
+#Vente produit en promotion
+for client in range(0,nbr_client):
+    n=rd.random()
+    if n<=0.15:
+        nbr_produit_promo=rd.choice([1,2,3])
+        if len(promo_liste)>=nbr_produit_promo:
+            for k in range(nbr_produit_promo):
+                aliment=rd.choice(promo_liste)
+                aliment.vendu()
+                nombre_aliment_vendu+=1
+                profit_vente+=aliment.prix
+                promo_liste.remove(aliment)
+
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
+
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
 #perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
 
+print("Nombre de produit vendu : {}" .format(nombre_aliment_vendu))
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
@@ -735,6 +759,13 @@ perte_legume=[0]
 for aliment in stock_liste:
     aliment.avance_jour()
 
+#Mise en place de promotion pour les produits avec une date de péremption arrivante a éché chance dans 1 jour
+promo_liste=[]
+for aliment in stock_liste:
+    if 0<aliment.age<=1:
+        promo_liste.append(aliment)
+        aliment.prix= aliment.prix - aliment.prix*(30/100)
+
 nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
 
 perte+= perte_gachis[0]
@@ -761,6 +792,21 @@ for aliment in demande_client_jour:
             break
 
 exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après vente
+
+#Vente produit en promotion
+for client in range(0,nbr_client):
+    n=rd.random()
+    if n<=0.15:
+        nbr_produit_promo=rd.choice([1,2,3])
+        if len(promo_liste)>=nbr_produit_promo:
+            for k in range(nbr_produit_promo):
+                aliment=rd.choice(promo_liste)
+                aliment.vendu()
+                nombre_aliment_vendu+=1
+                profit_vente+=aliment.prix
+                promo_liste.remove(aliment)
+
+exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
 
 #reapprovisionnement_dict=... acheter les aliments pour remplir stock
 #exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
