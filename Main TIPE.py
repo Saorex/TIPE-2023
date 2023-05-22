@@ -84,6 +84,11 @@ class Viande:
         self.existance=True
         stock_dict[self.type]+=1
 
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
+
     def vendu(self):
         if self.existance :
             stock_dict[self.type]-=1
@@ -101,11 +106,14 @@ class Poisson:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance :
@@ -124,11 +132,14 @@ class Laitier:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance:
@@ -147,11 +158,14 @@ class Fruit:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance:
@@ -171,11 +185,14 @@ class Legume:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance :
@@ -328,7 +345,7 @@ def choix(aliment=str,stock_liste=list):
 ##Stock jour 0
 jour=0
 for aliment in reapprovisionnement_dict:
-    reapprovisionnement_dict[aliment]=500
+    reapprovisionnement_dict[aliment]=4*MOY[aliment]
 perte=0
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
 profit_jour = - perte
@@ -512,6 +529,11 @@ class Viande:
         self.existance=True
         stock_dict[self.type]+=1
 
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
+
     def vendu(self):
         if self.existance :
             stock_dict[self.type]-=1
@@ -529,11 +551,14 @@ class Poisson:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance :
@@ -552,11 +577,14 @@ class Laitier:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance:
@@ -575,11 +603,14 @@ class Fruit:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance:
@@ -599,11 +630,14 @@ class Legume:
 
     def __init__(self,produit):
         self.type = produit
-        self.age = validite[aliment_dict[self.type]]
         self.prix = prix[aliment_dict[self.type]]
         self.taille = taille[aliment_dict[self.type]]
         self.existance=True
         stock_dict[self.type]+=1
+        if jour==0:
+            self.age =rd.randint(1,validite[aliment_dict[self.type]])
+        if jour>0:
+            self.age =validite[aliment_dict[self.type]]
 
     def vendu(self):
         if self.existance :
