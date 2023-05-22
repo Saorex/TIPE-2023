@@ -324,7 +324,7 @@ def choix(aliment=str,stock_liste=list):
 
                 return stock_liste[index_solution]
 
-#Stock jour 0
+##Stock jour 0
 jour=0
 for aliment in reapprovisionnement_dict:
     reapprovisionnement_dict[aliment]=500
@@ -406,12 +406,12 @@ for client in range(0,nbr_client):
                 capacite_jour+= aliment_choisi.taille
 
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
-
-#reapprovisionnement_dict=... acheter les aliments pour remplir stock
-#exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
-#perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
-
 print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu,nombre_aliment_vendu_promo))
+
+if jour%4==0:  #Approvisionnement tout les 4 jours
+    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\SOLVEUR.py").read())
+    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
+
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
@@ -828,15 +828,16 @@ for client in range(0,nbr_client):
                 capacite_jour+= aliment_choisi.taille
 
 exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
-
-#reapprovisionnement_dict=... acheter les aliments pour remplir stock
-#exec(open(r"D:\Julien\TIPE 2022-2023\Réapprovisionnement.py").read())
-#perte=approvisionnement(...) ie en fonction du prix de l'approvisionnement du jour
-
 print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu,nombre_aliment_vendu_promo))
+
+if jour%4==0:  #Approvisionnement tout les 4 jours
+    exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/SOLVEUR.py").read())
+    exec(open(r"/Users/hugorivierre/Desktop/TIPE 5:2/Réapprovisionnement.py").read())
+
 profit_jour = profit_vente - perte
 profit.append(profit_jour)
 temps.append(jour)
+
 
 ##Affichage Profit
 plt.close()
