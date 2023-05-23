@@ -354,7 +354,7 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-for k in range(0,8):
+for k in range(0,30):
     jour+=1
     capacite=0
     nombre_aliment_vendu=0
