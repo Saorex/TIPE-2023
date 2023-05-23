@@ -354,8 +354,9 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-for k in range(0,14):
+for k in range(0,8):
     jour+=1
+    capacite=0
     nombre_aliment_vendu=0
     profit_jour=0
     profit_vente=0
@@ -392,7 +393,6 @@ for k in range(0,14):
 
     #On effectue la vente du jour
     nbr_client=rd.randint(50,100)
-    nbr_client=75
     demande_client_jour=demande_client(nbr_client,demande_client_jour)
     for aliment in demande_client_jour:
         for k in range(0,demande_client_jour[aliment]):
@@ -414,7 +414,7 @@ for k in range(0,14):
     for client in range(0,nbr_client):
         n=rd.random()
         if n<=0.15:
-            nbr_produit_promo=rd.choice([1,2,3])
+            nbr_produit_promo=rd.choice([1,2,3,4])
             if len(promo_liste)>=nbr_produit_promo:
                 for k in range(nbr_produit_promo):
                     aliment=rd.choice(promo_liste)
@@ -458,7 +458,6 @@ plt.ylabel('Perte (par aliment)',size = 16,)
 plt.xlabel('Jour',size = 16,)
 plt.title("Perte d'aliment",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
 plt.grid(True)
-
 
 plt.subplots_adjust(hspace=0.3)
 plt.show()
@@ -839,7 +838,9 @@ promo_liste=[]
 for aliment in stock_liste:
     if 0<aliment.age<=2:
         promo_liste.append(aliment)
+        stock_liste.remove(aliment)
         aliment.prix= aliment.prix - aliment.prix*(30/100)
+
 
 nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
 
@@ -851,25 +852,6 @@ print("{} produits laitiers ont dépassé la date de consommation" .format(perte
 print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
 print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
 print("Perte total : {} aliments" .format(nombre_aliment_perime))
-
-#On effectue la vente du jour
-nbr_client=rd.randint(50,100)
-nbr_client=75
-demande_client_jour=demande_client(nbr_client,demande_client_jour)
-for aliment in demande_client_jour:
-    for k in range(0,demande_client_jour[aliment]):
-        aliment_choisi=choix(aliment,stock_liste)   #On prend l'aliment avec la date la plus courte
-        if aliment_choisi!=None:
-            aliment_choisi.vendu()
-            nombre_aliment_vendu+=1
-            profit_vente+=aliment_choisi.prix
-            capacite+= aliment_choisi.taille
-
-        else:
-            print('Rupture de stock pour {}'.format(aliment))
-            break
-
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
 #Vente produit en promotion
 nombre_aliment_vendu_promo=0
@@ -888,6 +870,24 @@ for client in range(0,nbr_client):
                 capacite+= aliment_choisi.taille
 
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
+
+#On effectue la vente du jour
+nbr_client=rd.randint(50,100)
+demande_client_jour=demande_client(nbr_client,demande_client_jour)
+for aliment in demande_client_jour:
+    for k in range(0,demande_client_jour[aliment]):
+        aliment_choisi=choix(aliment,stock_liste)   #On prend l'aliment avec la date la plus courte
+        if aliment_choisi!=None:
+            aliment_choisi.vendu()
+            nombre_aliment_vendu+=1
+            profit_vente+=aliment_choisi.prix
+            capacite+= aliment_choisi.taille
+
+        else:
+            print('Rupture de stock pour {}'.format(aliment))
+            break
+
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
 capacite_jour-= capacite
 
