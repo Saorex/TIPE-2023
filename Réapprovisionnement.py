@@ -4,16 +4,16 @@ for aliment in reapprovisionnement_dict:
     for k in range(0,nombre_aliment):
         if aliment in viande:
             stock_liste.append(Viande(aliment))
-            perte+=stock_liste[-1].prix
+            perte+=stock_liste[-1].prix_achat
         if aliment in poisson:
             stock_liste.append(Poisson(aliment))
-            perte+=stock_liste[-1].prix
+            perte+=stock_liste[-1].prix_achat
         if aliment in laitier:
             stock_liste.append(Laitier(aliment))
-            perte+=stock_liste[-1].prix
+            perte+=stock_liste[-1].prix_achat
         if aliment in fruit:
             stock_liste.append(Fruit(aliment))
-            perte+=stock_liste[-1].prix
+            perte+=stock_liste[-1].prix_achat
         if aliment in legume:
             stock_liste.append(Legume(aliment))
-            perte+=stock_liste[-1].prix
+            perte+=stock_liste[-1].prix_achat

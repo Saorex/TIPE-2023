@@ -355,7 +355,7 @@ jour=0
 for aliment in reapprovisionnement_dict:
     reapprovisionnement_dict[aliment]=8*MOY[aliment]
 perte=0
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement 2.0.py").read())
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
 profit_jour = - perte
 profit.append(profit_jour)
 temps.append(jour)
@@ -377,7 +377,7 @@ nombre_aliment_vendu_promo=0
 
 if jour%4==0:  #Approvisionnement tout les 4 jours
     exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\SOLVEUR.py").read())
-    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement 2.0.py").read())
+    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
     capacite_jour=capacite_max
 
 promo_liste=[]
@@ -403,7 +403,7 @@ for aliment in demande_client_jour:
             print('Rupture de stock pour {}'.format(aliment))
             break
 
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression 2.0.py").read())  #Mets à jour les stocks après vente
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
 #Vente produit en promotion
 nombre_aliment_vendu_promo=0
@@ -421,17 +421,17 @@ for client in range(0,nbr_client):
                 promo_liste.remove(aliment_choisi)
                 capacite+= aliment_choisi.taille
 
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression 2.0.py").read())  #Mets à jour les stocks après vente produit en promotion
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
 
 capacite_jour-= capacite
 
-print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu,nombre_aliment_vendu_promo))
+print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu+nombre_aliment_vendu_promo,nombre_aliment_vendu_promo))
 
 #On met à jour l'âge des aliments
 for aliment in stock_liste:
     aliment.avance_jour()
 
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression 2.0.py").read())
+exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())
 #Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance dans 2 jour
 
 nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
