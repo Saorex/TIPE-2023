@@ -22,6 +22,7 @@ nombre_aliment_manquant_liste=[0]
 stock_liste=[]
 promo_liste=[]
 profit=[]
+profit_vente_liste=[]
 temps=[]
 nombre_aliment_perime_liste=[0]
 perte_viande=[0]
@@ -29,6 +30,7 @@ perte_poisson=[0]
 perte_laitier=[0]
 perte_fruit=[0]
 perte_legume=[0]
+
 #Création du dictionnaire avec tous les aliments, leur valeur est leurs index dans la liste categorie
 
 def init_dict()-> (dict,dict,dict):
@@ -83,7 +85,7 @@ class Viande:
         self.type = produit
         self.age = validite[aliment_dict[self.type]]
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -112,7 +114,7 @@ class Poisson:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -140,7 +142,7 @@ class Laitier:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -168,7 +170,7 @@ class Fruit:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -197,7 +199,7 @@ class Legume:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -373,8 +375,7 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-for k in range(34):
-
+for k in range(29):
     jour+=1
     capacite=0
     nombre_aliment_vendu=0
@@ -395,6 +396,11 @@ for k in range(34):
     print("")
 
     if jour%5==0:  #Approvisionnement tout les 4 jours
+        print("Le reveneu estimé sur le stock est de : {}" .format(revenue_estime))
+        gain=0
+        for i in range(jour-2,jour-5,-1):
+            gain+=profit_vente_liste[i]
+        print("Gain effectués sur 5 jours : {}" .format(gain))
         exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\SOLVEUR.py").read())
         exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
         capacite_jour=capacite_max
@@ -418,7 +424,6 @@ for k in range(34):
                 nombre_aliment_manquant+= abs(stock_dict[aliment] - demande_client_jour[aliment])
                 print('Rupture de stock pour {}'.format(aliment))
                 break
-
 
     exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
 
@@ -446,6 +451,7 @@ for k in range(34):
     print("-------------------")
 
     profit_jour = profit_vente - perte
+    profit_vente_liste.append(profit_vente)
     nombre_aliment_perime_liste.append(nombre_aliment_perime)
     nombre_aliment_manquant_liste.append(nombre_aliment_manquant)
     profit.append(profit_jour)
@@ -463,7 +469,7 @@ plt.grid(True)
 
 profit_tt=0
 for k in range(len(profit)):
-    profit_tt=profit[k]
+    profit_tt+=profit[k]
 
 print("Le profit depuis l'ouverture est de : {}" .format(profit_tt))
 

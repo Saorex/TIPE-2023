@@ -17,3 +17,7 @@ for aliment in reapprovisionnement_dict:
         if aliment in legume:
             stock_liste.append(Legume(aliment))
             perte+=stock_liste[-1].prix_achat
+
+revenue_estime=0
+for aliment in stock_liste:
+    revenue_estime+= aliment.prix_vente

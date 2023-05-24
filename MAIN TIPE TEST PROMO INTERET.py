@@ -83,7 +83,7 @@ class Viande:
         self.type = produit
         self.age = validite[aliment_dict[self.type]]
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -112,7 +112,7 @@ class Poisson:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -140,7 +140,7 @@ class Laitier:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -168,7 +168,7 @@ class Fruit:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -197,7 +197,7 @@ class Legume:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(50/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -372,7 +372,7 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-for k in range(30):
+for k in range(29):
     jour+=1
     capacite=0
     nombre_aliment_vendu=0
@@ -401,16 +401,16 @@ for k in range(30):
     #Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance :
     for aliment in stock_liste:
         if aliment.age==1:
-            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(50/100)
-            aliment.promo=50
-
-        if aliment.age==2:
-            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(30/100)
-            aliment.promo=30
-
-        if aliment.age==3 and aliment.type!='saumon' and aliment.type!='thon' and aliment.type!='moule' and aliment.type!='crevette' and aliment.type!='truite' :
             aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(20/100)
             aliment.promo=20
+
+        if aliment.age==2:
+            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(15/100)
+            aliment.promo=15
+
+        if aliment.age==3 and aliment.type!='saumon' and aliment.type!='thon' and aliment.type!='moule' and aliment.type!='crevette' and aliment.type!='truite' :
+            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(10/100)
+            aliment.promo=10
 
 
     #On effectue la vente du jour
@@ -447,7 +447,7 @@ for k in range(30):
                 aliment_choisi=choix_promo(stock_liste,stock_dict)
                 if aliment_choisi!=None and aliment_choisi.existence==True:
 
-                    if aliment_choisi.promo==20:
+                    if aliment_choisi.promo==10:
                         n=rd.random()
                         if n<=0.15:
                             aliment_choisi.vendu()
@@ -457,7 +457,7 @@ for k in range(30):
                             capacite+= aliment_choisi.taille
 
 
-                    if aliment_choisi.promo==30:
+                    if aliment_choisi.promo==15:
                         n=rd.random()
                         if n<=0.35:
                             aliment_choisi.vendu()
@@ -467,7 +467,7 @@ for k in range(30):
                             capacite+= aliment_choisi.taille
 
 
-                    if aliment_choisi.promo==50:
+                    if aliment_choisi.promo==20:
                         n=rd.random()
                         if n<=0.5:
                             aliment_choisi.vendu()
@@ -497,7 +497,7 @@ for k in range(30):
     print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
     print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
     print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
-    print("Perte total : {} aliments" .format(nombre_aliment_perime))
+    print("Pertes totales : {} aliments" .format(nombre_aliment_perime))
     print("")
     print("-------------------")
 
@@ -519,7 +519,7 @@ plt.grid(True)
 
 profit_tt=0
 for k in range(len(profit)):
-    profit_tt=profit[k]
+    profit_tt+=profit[k]
 
 print("Le profit depuis l'ouverture est de : {}" .format(profit_tt))
 
