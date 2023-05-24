@@ -4,7 +4,7 @@ import random as rd
 
 
 objectif=np.eye(34)
-contraintes = np.array([MOY[i]*6 for i in MOY])
+contraintes = np.array([MOY[i]*5 for i in MOY])
 fonction_benefices = np.array(prix)
 
 # Problème

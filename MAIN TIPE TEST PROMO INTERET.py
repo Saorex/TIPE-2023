@@ -3,7 +3,7 @@ import csv
 import random as rd
 import matplotlib.pyplot as plt
 
-MOY={'poulet':71, 'boeuf':44, 'porc':95, 'veau':6, 'agneau':6, 'lapin':8, 'saumon':33,'thon':19,'moule':4,'crevette':2,'truite':15,'lait':69,'yaourt':35,'creme_fraiche':7,'beurre':38,'emmental':49,'pomme':16,'banane':16,'orange':24,'clementine':19,'peche':16,'poire':21,'raisin':4,'pamplemousse':6,'tomate':26,'pomme_de_terre':28,'carotte':17,'endive':9,'salade':12,'courgette':21,'oignon':11,'concombre':6,'poireau':6,'choux_fleur':7}
+MOY={'poulet':63, 'boeuf':45, 'porc':83, 'veau':6, 'agneau':11, 'lapin':8, 'saumon':30,'thon':20,'moule':8,'crevette':6,'truite':15,'lait':69,'yaourt':35,'creme_fraiche':11,'beurre':10,'emmental':49,'pomme':16,'banane':28,'orange':24,'clementine':19,'peche':16,'poire':21,'raisin':10,'pamplemousse':11,'tomate':26,'pomme_de_terre':28,'carotte':17,'endive':9,'salade':12,'courgette':21,'oignon':11,'concombre':6,'poireau':10,'choux_fleur':10}
 
 ##Inialisation :
 #Création des différents types de produit par catégorie :
@@ -82,7 +82,7 @@ class Viande:
         self.type = produit
         self.age = validite[aliment_dict[self.type]]
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(20/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -102,7 +102,7 @@ class Viande:
         self.age-=1
         if self.age<0 and self.existence :
             perte_viande[0]+=1
-            perte_gachis[0]+=self.prix
+            perte_gachis[0]+=self.prix_achat
             stock_dict[self.type]-=1
             self.existence=False
 
@@ -111,7 +111,7 @@ class Poisson:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(20/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -130,7 +130,7 @@ class Poisson:
         self.age-=1
         if self.age<0 and self.existence :
             perte_poisson[0]+=1
-            perte_gachis[0]+=self.prix
+            perte_gachis[0]+=self.prix_achat
             stock_dict[self.type]-=1
             self.existence=False
 
@@ -139,7 +139,7 @@ class Laitier:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(20/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -158,7 +158,7 @@ class Laitier:
         self.age-=1
         if self.age<0 and self.existence:
             perte_laitier[0]+=1
-            perte_gachis[0]+=self.prix
+            perte_gachis[0]+=self.prix_achat
             stock_dict[self.type]-=1
             self.existence=False
 
@@ -167,7 +167,7 @@ class Fruit:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(20/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -186,7 +186,7 @@ class Fruit:
         self.age-=1
         if self.age<0 and self.existence :
             perte_fruit[0]+=1
-            perte_gachis[0]+=self.prix
+            perte_gachis[0]+=self.prix_achat
             stock_dict[self.type]-=1
             self.existence=False
 
@@ -196,7 +196,7 @@ class Legume:
     def __init__(self,produit):
         self.type = produit
         self.prix_achat = prix[aliment_dict[self.type]]
-        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(20/100)
+        self.prix_vente = prix[aliment_dict[self.type]] + prix[aliment_dict[self.type]]*(30/100)
         self.taille = taille[aliment_dict[self.type]]
         self.existence=True
         self.promo=0
@@ -215,7 +215,7 @@ class Legume:
         self.age-=1
         if self.age<0 and self.existence :
             perte_legume[0]+=1
-            perte_gachis[0]+=self.prix
+            perte_gachis[0]+=self.prix_achat
             stock_dict[self.type]-=1
             self.existence=False
 
@@ -335,30 +335,35 @@ def choix(aliment=str,stock_liste=list,stock_dict=dict):
     """
     Détermine l'aliment qui a la date de péremption la plus courte dans le stock
     """
-    if stock_dict[aliment]<0:                 #S'il n'y a pas de produit disponible en stock
-        return None
+    if stock_dict[aliment]<=0 :                 #S'il n'y a pas de produit disponible en stock
+        return 'Rupture'
 
-    else :
-        index=-1
+    if stock_dict[aliment]>0 :
         index_solution=0
-        date_peremption_liste=[]
-        for k in stock_liste:                           #On regarde pour tous les produits dans le stock
-            index+=1
-            if k.type==aliment:                         #Pour le type d'aliment qu'on cherche
-                if date_peremption_liste==[]:           #Recherche du minimum
-                    index_solution=index
-                    date_peremption_liste.append(k.age)
-                else:
-                    if date_peremption_liste[-1]>k.age: #Si la date de péremption de l'élement k est plus petite que celle du dernière élement solution alors la nouvelle solution est k s'il y a égalité on garde la première solution
-                            index_solution=index
-                            date_peremption_liste.append(k.age)
+        for i in range(len(stock_liste)):
+            if stock_liste[i].type==aliment and stock_liste[i].existence :
+                index_solution=i
+                break
 
-                return stock_liste[index_solution]
+        for i in range(len(stock_liste)):
+            if stock_liste[i].type==aliment and stock_liste[i].age < stock_liste[index_solution].age and stock_liste[i].existence :
+                index_solution=i
+
+    return stock_liste[index_solution]
+
+def choix_promo(stock_liste=list,stock_dict=dict):
+
+    promo_liste=[]
+    for aliment in stock_liste:
+        if aliment.promo!=0 :
+            promo_liste.append(aliment)
+
+    return rd.choice(promo_liste)
 
 ##Stock jour 0
 jour=0
 for aliment in reapprovisionnement_dict:
-    reapprovisionnement_dict[aliment]=8*MOY[aliment]
+    reapprovisionnement_dict[aliment]=5*MOY[aliment]
 perte=0
 exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
 profit_jour = - perte
@@ -366,134 +371,141 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-jour+=1
-capacite=0
-nombre_aliment_vendu=0
-profit_jour=0
-profit_vente=0
-perte=0
-perte_gachis=[0]   #Aliments périmés qui sont jetés : Variable mise à jour avec la méthode avance_jour
-perte_viande=[0]
-perte_poisson=[0]
-perte_laitier=[0]
-perte_fruit=[0]
-perte_legume=[0]
-nombre_aliment_vendu_promo=0
+for k in range(30):
+    jour+=1
+    capacite=0
+    nombre_aliment_vendu=0
+    profit_jour=0
+    profit_vente=0
+    perte=0
+    perte_gachis=[0]   #Aliments périmés qui sont jetés : Variable mise à jour avec la méthode avance_jour
+    perte_viande=[0]
+    perte_poisson=[0]
+    perte_laitier=[0]
+    perte_fruit=[0]
+    perte_legume=[0]
+    nombre_aliment_vendu_promo=0
 
-if jour%4==0:  #Approvisionnement tout les 4 jours
-    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\SOLVEUR.py").read())
-    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
-    capacite_jour=capacite_max
+    print("")
+    print("------Jour {}------" .format(jour))
+    print("")
 
-#Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance :
-promo_liste=[]
-for aliment in stock_liste:
-    if aliment.age==1:
-        promo_liste.append(aliment)
-        stock_liste.remove(aliment)
-        aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(70/100)
-        aliment.promo=70
+    if jour%5==0:  #Approvisionnement tout les 4 jours
+        exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\SOLVEUR.py").read())
+        exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Réapprovisionnement.py").read())
+        capacite_jour=capacite_max
+        print("Réapprovisionnement effectué")
 
-    if aliment.age==2:
-        promo_liste.append(aliment)
-        stock_liste.remove(aliment)
-        aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(50/100)
-        aliment.promo=50
+    #Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance :
+    for aliment in stock_liste:
+        if aliment.age==1:
+            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(50/100)
+            aliment.promo=50
 
-    if aliment.age==3 and aliment.type!='saumon' and aliment.type!='thon' and aliment.type!='moule' and aliment.type!='crevette' and aliment.type!='truite' :
-        promo_liste.append(aliment)
-        stock_liste.remove(aliment)
-        aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(20/100)
-        aliment.promo=20
+        if aliment.age==2:
+            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(30/100)
+            aliment.promo=30
 
-#On effectue la vente du jour
-nbr_client=rd.randint(50,100)
-demande_client_jour=demande_client(nbr_client,demande_client_jour)
-for aliment in demande_client_jour:
-    for k in range(0,demande_client_jour[aliment]):
-        aliment_choisi=choix(aliment,stock_liste,stock_dict)   #On prend l'aliment avec la date la plus courte dans le stock (pas en promo)
-        if aliment_choisi!=None and aliment_choisi.existence==True :
-            aliment_choisi.vendu()
-            stock_liste.remove(aliment_choisi)
-            nombre_aliment_vendu+=1
-            profit_vente+=aliment_choisi.prix_vente
-            capacite+= aliment_choisi.taille
-
-        if aliment_choisi==None:
-            print('Rupture de stock pour {}'.format(aliment))
-            break
-
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente
-
-#Vente produit en promotion
-nombre_aliment_vendu_promo=0
-for client in range(0,nbr_client):
-    nbr_produit_promo=rd.choice([1,2,3,4])
-    if len(promo_liste)>=nbr_produit_promo :
-        for k in range(nbr_produit_promo):
-            aliment_choisi=rd.choice(promo_liste)
-            if aliment_choisi!=None and aliment_choisi.existence==True:
-
-                if aliment_choisi.promo==20:
-                    n=rd.random()
-                    if n<=0.15:
-                        aliment_choisi.vendu()
-                        promo_liste.remove(aliment_choisi)
-                        nombre_aliment_vendu_promo+=1
-                        profit_vente+=aliment_choisi.prix_vente
-                        capacite+= aliment_choisi.taille
+        if aliment.age==3 and aliment.type!='saumon' and aliment.type!='thon' and aliment.type!='moule' and aliment.type!='crevette' and aliment.type!='truite' :
+            aliment.prix_vente= aliment.prix_vente - aliment.prix_vente*(20/100)
+            aliment.promo=20
 
 
-                if aliment_choisi.promo==50:
-                    n=rd.random()
-                    if n<=0.35:
-                        aliment_choisi.vendu()
-                        promo_liste.remove(aliment_choisi)
-                        nombre_aliment_vendu_promo+=1
-                        profit_vente+=aliment_choisi.prix_vente
-                        capacite+= aliment_choisi.taille
+    #On effectue la vente du jour
+    nbr_client=rd.randint(50,100)
+    demande_client_jour=demande_client(nbr_client,demande_client_jour)
+    for aliment in demande_client_jour:
+        for k in range(demande_client_jour[aliment]):
+            aliment_choisi=choix(aliment,stock_liste,stock_dict)   #On prend l'aliment avec la date la plus courte dans le stock (pas en promo)
+            if aliment_choisi!=None and aliment_choisi!='Rupture' and aliment_choisi.existence==True :
+                aliment_choisi.vendu()
+                exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())
+                nombre_aliment_vendu+=1
+                profit_vente+=aliment_choisi.prix_vente
+                capacite+= aliment_choisi.taille
+
+            if aliment_choisi=='Rupture':
+                print('Rupture de stock pour {}'.format(aliment))
+                break
+
+    #Vente produit en promotion
+    nombre_aliment_vendu_promo=0
+    for client in range(0,nbr_client):
+        nbr_produit_promo_choisi=rd.choice([1,2,3,4])
+
+        nbr_produit_promo=0
+        for aliment in stock_liste:
+            if aliment.promo!=0:
+                nbr_produit_promo+=1
 
 
-                if aliment_choisi.promo==70:
-                    n=rd.random()
-                    if n<=0.5:
-                        aliment_choisi.vendu()
-                        promo_liste.remove(aliment_choisi)
-                        nombre_aliment_vendu_promo+=1
-                        profit_vente+=aliment_choisi.prix_vente
-                        capacite+= aliment_choisi.taille
+        if nbr_produit_promo>=nbr_produit_promo_choisi:
+            for k in range(nbr_produit_promo_choisi):
+                aliment_choisi=choix_promo(stock_liste,stock_dict)
+                if aliment_choisi!=None and aliment_choisi.existence==True:
 
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
+                    if aliment_choisi.promo==20:
+                        n=rd.random()
+                        if n<=0.15:
+                            aliment_choisi.vendu()
+                            stock_liste.remove(aliment_choisi)
+                            nombre_aliment_vendu_promo+=1
+                            profit_vente+=aliment_choisi.prix_vente
+                            capacite+= aliment_choisi.taille
 
-capacite_jour-= capacite
 
-print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu+nombre_aliment_vendu_promo,nombre_aliment_vendu_promo))
+                    if aliment_choisi.promo==30:
+                        n=rd.random()
+                        if n<=0.35:
+                            aliment_choisi.vendu()
+                            stock_liste.remove(aliment_choisi)
+                            nombre_aliment_vendu_promo+=1
+                            profit_vente+=aliment_choisi.prix_vente
+                            capacite+= aliment_choisi.taille
 
-#On met à jour l'âge des aliments
-for aliment in stock_liste:
-    aliment.avance_jour()
 
-exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())
-#Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance dans 2 jour
+                    if aliment_choisi.promo==50:
+                        n=rd.random()
+                        if n<=0.5:
+                            aliment_choisi.vendu()
+                            stock_liste.remove(aliment_choisi)
+                            nombre_aliment_vendu_promo+=1
+                            profit_vente+=aliment_choisi.prix_vente
+                            capacite+= aliment_choisi.taille
 
-nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
-perte+= perte_gachis[0]
+    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())  #Mets à jour les stocks après vente produit en promotion
 
-print("{} viandes ont dépassé la date de consommation" .format(perte_viande[0]))
-print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[0]))
-print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
-print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
-print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
-print("Perte total : {} aliments" .format(nombre_aliment_perime))
+    capacite_jour-= capacite
 
-profit_jour = profit_vente - perte
-nombre_aliment_perime_liste.append(nombre_aliment_perime)
-profit.append(profit_jour)
-temps.append(jour)
+    print("Nombre de produit vendu : {} (dont {} en promotion)" .format(nombre_aliment_vendu+nombre_aliment_vendu_promo,nombre_aliment_vendu_promo))
+
+    #On met à jour l'âge des aliments
+    for aliment in stock_liste:
+        aliment.avance_jour()
+
+    exec(open(r"C:\Users\julie\Documents\GitHub\TIPE-2022-2023\Suppression.py").read())
+    #Mise en place de promotion pour les produits avec une date de péremption arrivante a échéance dans 2 jour
+
+    nombre_aliment_perime=perte_viande[0]+perte_poisson[0]+perte_laitier[0]+perte_fruit[0]+perte_legume[0]
+    perte+= perte_gachis[0]
+
+    print("{} viandes ont dépassé la date de consommation" .format(perte_viande[0]))
+    print("{} poissons ont dépassé la date de consommation" .format(perte_poisson[0]))
+    print("{} produits laitiers ont dépassé la date de consommation" .format(perte_laitier[0]))
+    print("{} fruits ont dépassé la date de consommation" .format(perte_fruit[0]))
+    print("{} legumes ont dépassé la date de consommation" .format(perte_legume[0]))
+    print("Perte total : {} aliments" .format(nombre_aliment_perime))
+    print("")
+    print("-------------------")
+
+    profit_jour = profit_vente - perte
+    nombre_aliment_perime_liste.append(nombre_aliment_perime)
+    profit.append(profit_jour)
+    temps.append(jour)
 
 ##Affichage Profit
 plt.close()
-plt.subplot(211)
+plt.subplot(221)
 plt.plot(temps[1:],profit[1:], "x-", color='red')
 plt.xticks(temps[1:])
 plt.ylabel('Profit (en euro)',size = 16,)
@@ -501,12 +513,26 @@ plt.xlabel('Jour',size = 16,)
 plt.title("Profit effectué",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
 plt.grid(True)
 
-plt.subplot(212)
+profit_tt=0
+for k in range(len(profit)):
+    profit_tt=profit[k]
+
+print("Le profit depuis l'ouverture est de : {}" .format(profit_tt))
+
+plt.subplot(222)
 plt.plot(temps[1:],nombre_aliment_perime_liste[1:], "x-", color='green')
 plt.xticks(temps[1:])
 plt.ylabel('Perte (par aliment)',size = 16,)
 plt.xlabel('Jour',size = 16,)
 plt.title("Perte d'aliment",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
+plt.grid(True)
+
+plt.subplot(223)
+plt.plot(temps[1:],nombre_aliment_manquant_liste[1:], "x-", color='orange')
+plt.xticks(temps[1:])
+plt.ylabel('Aliment manquant',size = 16,)
+plt.xlabel('Jour',size = 16,)
+plt.title("Nombre d'aliment manquant par jour",fontdict={'family': 'serif','color' : 'darkblue','weight': 'bold','size': 18})
 plt.grid(True)
 
 plt.subplots_adjust(hspace=0.3)
