@@ -2,6 +2,21 @@ from pulp import *
 import numpy as np
 import random as rd
 
+"""
+Utilisation du solveur :
+
+1) Définir un problème avec probleme = LpProblem(nom du probleme, LpMaximize pour maximiser une fonction (resp LpMinimize))
+
+2) Définir les variables : x =LpVariable(nom de la variable, borne minimale,cat=LpInteger pour des résultats entiers (resp Continous))
+
+3) Ajouter des contraintes avec probleme += ( x +2*y <= 3) (resp >=)
+
+4) Ajouter la fonction objectif avec probleme += 5*x + y (ici maximiser 5x + y)
+
+5) Résoudre le problème avec probleme.solve(solver = votre solveur (par défaut c'est PULP_CBC_CMD)
+
+6) Récupérer les valeur avec x.value()
+"""
 
 objectif=np.eye(34)
 contraintes = np.array([MOY[i]*5 for i in MOY])
