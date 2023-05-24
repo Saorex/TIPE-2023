@@ -18,6 +18,7 @@ capacite_jour=capacite_max
 capacite=0
 jour=0
 perte_gachis=[0]
+nombre_aliment_manquant_liste=[0]
 stock_liste=[]
 promo_liste=[]
 profit=[]
@@ -385,6 +386,7 @@ for k in range(30):
     perte_fruit=[0]
     perte_legume=[0]
     nombre_aliment_vendu_promo=0
+    nombre_aliment_manquant=0
 
     print("")
     print("------Jour {}------" .format(jour))
@@ -425,6 +427,7 @@ for k in range(30):
                 capacite+= aliment_choisi.taille
 
             if aliment_choisi=='Rupture':
+                nombre_aliment_manquant+= abs(stock_dict[aliment] - demande_client_jour[aliment])
                 print('Rupture de stock pour {}'.format(aliment))
                 break
 
@@ -500,6 +503,7 @@ for k in range(30):
 
     profit_jour = profit_vente - perte
     nombre_aliment_perime_liste.append(nombre_aliment_perime)
+    nombre_aliment_manquant_liste.append(nombre_aliment_manquant)
     profit.append(profit_jour)
     temps.append(jour)
 

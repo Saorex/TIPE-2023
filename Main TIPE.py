@@ -373,7 +373,7 @@ profit.append(profit_jour)
 temps.append(jour)
 
 ##Simulation
-for k in range(30):
+for k in range(34):
 
     jour+=1
     capacite=0
